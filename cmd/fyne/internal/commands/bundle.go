@@ -221,10 +221,11 @@ func (b *Bundler) doBundle(path string, out *os.File) {
 		b.noheader = true
 	}
 
-	if b.name == "" {
-		b.name = sanitiseName(filepath.Base(path), b.prefix)
+	name := b.name
+	if name == "" {
+		name = sanitiseName(filepath.Base(path), b.prefix)
 	}
-	writeResource(path, b.name, out)
+	writeResource(path, name, out)
 }
 
 func openOutputFile(filePath string, noheader bool) (file *os.File, close func() error, err error) {
