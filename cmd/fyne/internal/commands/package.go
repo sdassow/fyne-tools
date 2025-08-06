@@ -11,13 +11,13 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strconv"
 	"strings"
 
 	_ "github.com/fyne-io/image/ico" // import image encodings
 	"github.com/urfave/cli/v2"
 	"golang.org/x/mod/modfile"
 	"golang.org/x/mod/module"
+	"golang.org/x/mod/semver"
 
 	"fyne.io/fyne/v2"
 
@@ -354,16 +354,7 @@ func calculateExeName(sourceDir, osys string) string {
 }
 
 func isValidVersion(ver string) bool {
-	nums := strings.Split(ver, ".")
-	if len(nums) == 0 || len(nums) > 3 {
-		return false
-	}
-	for _, num := range nums {
-		if _, err := strconv.Atoi(num); err != nil {
-			return false
-		}
-	}
-	return true
+	return semver.IsValid("v" + ver)
 }
 
 // normaliseIcon takes a non-png image file and converts it to PNG for use in packaging.
